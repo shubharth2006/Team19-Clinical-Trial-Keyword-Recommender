@@ -17,7 +17,7 @@ A completed reference-aligned experiment used 55,634 documents, a 134-term vocab
 3. Choose 5,000 records for a quicker check, or 55,634 to repeat the reference-scale run.
 4. Download the artifact named clinical-trial-reproduction-5000 or clinical-trial-reproduction-55634.
 
-The artifact contains the measured metrics, run summary, saved model, and vocabulary. The successful 55,634-record run is [here](https://github.com/shubharth2006/Team19-Clinical-Trial-Keyword-Recommender/actions/runs/38132544175). See [results/REFERENCE_RUN_55634.md](../results/REFERENCE_RUN_55634.md) for its metrics and limitations.
+The artifact contains the measured metrics, run summary, saved model, and vocabulary. The successful 55,634-record run is [here](https://github.com/shubharth2006/Team19-Clinical-Trial-Keyword-Recommender/actions/runs/38135025261). See [results/REFERENCE_RUN_55634.md](../results/REFERENCE_RUN_55634.md) for its metrics and limitations.
 
 ## Option B: run on Windows PowerShell
 
