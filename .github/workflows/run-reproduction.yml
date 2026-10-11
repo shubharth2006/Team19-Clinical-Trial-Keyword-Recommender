@@ -1,6 +1,11 @@
 name: Run clinical-trial reproduction
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/run-reproduction.yml"
+      - "dataset-run-trigger.txt"
   workflow_dispatch:
     inputs:
       dataset_rows:
@@ -20,6 +25,8 @@ jobs:
   reproduction:
     runs-on: ubuntu-latest
     timeout-minutes: 45
+    env:
+      DATASET_ROWS: ${{ github.event.inputs.dataset_rows || '5000' }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -40,13 +47,13 @@ jobs:
       - name: Download source records
         run: |
           python scripts/download_hf_sample.py \
-            --rows "${{ inputs.dataset_rows }}" \
-            --out data/clinical_trials_${{ inputs.dataset_rows }}.csv \
+            --rows "$DATASET_ROWS" \
+            --out data/clinical_trials_${DATASET_ROWS}.csv \
             --seed 42
       - name: Train and evaluate reference-aligned model
         run: |
           python scripts/run_reference_model.py \
-            --input data/clinical_trials_${{ inputs.dataset_rows }}.csv \
+            --input data/clinical_trials_${DATASET_ROWS}.csv \
             --min-doc-freq 5 \
             --max-terms 134 \
             --epochs 5 \
@@ -55,7 +62,7 @@ jobs:
       - name: Upload measured experiment artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: clinical-trial-reproduction-${{ inputs.dataset_rows }}
+          name: clinical-trial-reproduction-${{ github.event.inputs.dataset_rows || '5000' }}
           if-no-files-found: error
           path: |
             results/reference_metrics.csv
