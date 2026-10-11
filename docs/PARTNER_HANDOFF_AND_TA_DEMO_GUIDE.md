@@ -42,7 +42,7 @@ Use this when rehearsing with the TA and you do not want to download and train t
 
 The 55,634-record workflow returned these sample CLI suggestions for “Neoplasms”: Breast Neoplasms, Syndrome, and Diabetes Mellitus. Only the first is clearly topical; this is useful for demonstrating both the working interface and a limitation. Results can differ if you retrain the model.
 
-Artifact source run: https://github.com/shubharth2006/Team19-Clinical-Trial-Keyword-Recommender/actions/runs/38132544175
+Artifact source run: https://github.com/shubharth2006/Team19-Clinical-Trial-Keyword-Recommender/actions/runs/38135025261
 
 ## 4. Re-run the full experiment on Windows PowerShell
 
@@ -251,4 +251,4 @@ Before the review, write down who handled which real tasks (for example, data in
 - MIT-licensed reference implementation: https://github.com/2005-Aneeshdutt/Clinical-Trial-Keyword-Recommendation
 - Dataset: https://huggingface.co/datasets/louisbrulenaudet/clinical-trials
 - Team repository: https://github.com/shubharth2006/Team19-Clinical-Trial-Keyword-Recommender
-- Completed reference-scale run: https://github.com/shubharth2006/Team19-Clinical-Trial-Keyword-Recommender/actions/runs/38132544175
+- Completed reference-scale run: https://github.com/shubharth2006/Team19-Clinical-Trial-Keyword-Recommender/actions/runs/38135025261
