@@ -39,8 +39,8 @@ A popularity baseline tests whether the model does better than simply recommendi
 
 ### What is the main limitation?
 
-The current implementation builds dense NumPy matrices and uses a small controlled vocabulary. The complete source corpus has hundreds of thousands of trials, but training on all of them would require a more scalable sparse/mini-batch design and careful runtime measurement. The 15-record pilot is a smoke test, not proof of strong predictive performance.
+The adapter uses pre-assigned condition/intervention MeSH terms rather than recreating the original XML and MeSH-trie matching across six text fields. The query matcher relies on exact phrases, Top-3 precision is low in absolute terms, and the results come from one seed. The vocabulary and IDF values are also calculated before the train/validation/test split, so a stricter evaluation should fit them using training records only.
 
 ### What would improve it next?
 
-Run a larger real dataset experiment; tune vocabulary size and regularization on validation data; compare TF-IDF nearest-neighbor and collaborative-filtering baselines; and preserve train/test separation when computing vocabulary statistics to avoid information leakage.
+Evaluate additional random seeds and a wider range of queries; fit the vocabulary and IDF on training records only; inspect recommendations for topical relevance; and compare with additional retrieval baselines.
