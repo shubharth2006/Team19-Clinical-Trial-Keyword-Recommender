@@ -2,7 +2,7 @@
 
 ## Execution
 
-- Run: [GitHub Actions - 5,000 record reproduction](https://github.com/shubharth2006/Team19-Clinical-Trial-Keyword-Recommender/actions/runs/38131877004)
+- Run: [GitHub Actions - 5,000 record reproduction](https://github.com/shubharth2006/Team19-Clinical-Trial-Keyword-Recommender/actions/runs/38132267740)
 - Dataset: shuffled streaming sample of 5,000 studies with usable pre-assigned MeSH condition/intervention terms
 - Vocabulary: 134 frequent terms
 - Split: 4,000 train / 500 validation / 500 test
@@ -21,6 +21,11 @@ For this single seeded run, collaborative filtering's test AP@3 is about 2.56 ti
 
 ## Interpretation and limitations
 
-The experiment pipeline completed successfully: streaming download, matrix construction, training, held-out evaluation, model saving and vocabulary saving all completed. The training-loss sequence decreased from 0.19662 before updates to 0.19525 after five epochs.
+The end-to-end GitHub Actions pipeline completed successfully: streaming download, matrix construction, training, held-out evaluation, recommendation CLI inference and a Streamlit health/startup check all passed. The run also uploaded the trained model and vocabulary as an artifact. The training-loss sequence decreased from 0.19662 before updates to 0.19525 after five epochs.
 
 This result uses pre-assigned MeSH condition/intervention annotations from the Hugging Face dataset. It does not reproduce the original XML pipeline's MeSH-trie matching across six text fields. Therefore its scores are not directly comparable with the upstream project's reported AP@K. The test AP@3 is still low in absolute terms; this run supports pipeline functionality and a preliminary comparison, not a claim of high recommendation quality. More seeds and manual relevance inspection would be needed for a stronger conclusion.
+
+
+## Recommendation and demo verification
+
+The inference CLI loaded the saved model and produced three ranked terms for the smoke query “Neoplasms”: Diabetes Mellitus, Syndrome, and Diabetes Mellitus, Type 2. This confirms inference execution, but the suggested terms are not strongly topical for that generic query. The live demo starts successfully; qualitative recommendation relevance remains a limitation and should be reviewed before presenting the output as useful search expansion.
