@@ -1,0 +1,50 @@
+{
+  "input_file": "clinical_trials_55634.csv",
+  "documents_used": 55634,
+  "vocabulary_size": 134,
+  "matrix_shape_terms_by_documents": [134, 55634],
+  "split": {"train": 44507, "validation": 5563, "test": 5564},
+  "parameters": {
+    "tau": -0.001,
+    "k": 1000.0,
+    "alpha": 0.1,
+    "lambda": 0.01,
+    "epochs": 5,
+    "batch_size": 10000,
+    "seed": 42,
+    "mask_fraction": 0.8
+  },
+  "validation": {
+    "mse": 0.004813622503401992,
+    "mser": 0.004813622503401992,
+    "apk3": 0.029356342358425068,
+    "random_apk3": 0.0046613111177229
+  },
+  "test": {
+    "mse": 0.0047272098417823595,
+    "mser": 0.0047272098417823595,
+    "apk3": 0.030330420809480764,
+    "random_apk3": 0.005322888420206889,
+    "popularity_apk3": 0.011650095410264134
+  },
+  "training_loss": [
+    0.19330279972998268,
+    0.1920128242667305,
+    0.1914399696294694,
+    0.191122891565951,
+    0.1909009800245247,
+    0.19071809465677397
+  ],
+  "interpretation_note": "This dataset adapter consumes pre-assigned MeSH condition/intervention terms. Results are not directly comparable with the original XML text-matching corpus.",
+  "recommendation_smoke_test": {
+    "query": "Neoplasms",
+    "matched_terms": ["Neoplasms"],
+    "ranked_terms": [
+      {"term": "Breast Neoplasms", "score": 0.010830},
+      {"term": "Syndrome", "score": 0.010607},
+      {"term": "Diabetes Mellitus", "score": 0.010438}
+    ],
+    "interpretation": "One topically related term plus two weaker matches; this is an execution smoke test, not a relevance benchmark."
+  },
+  "github_actions_run": "https://github.com/shubharth2006/Team19-Clinical-Trial-Keyword-Recommender/actions/runs/38132544175"
+}
