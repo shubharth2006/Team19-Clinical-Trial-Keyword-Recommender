@@ -1,0 +1,11 @@
+QUERY: Clinical trial involving Arthritis, Rheumatoid and autoimmune diseases with methotrexate
+MATCHED: ['Arthritis, Rheumatoid', 'Autoimmune Diseases', 'Methotrexate', 'Arthritis']
+RECOMMENDED: [('Musculoskeletal Diseases', 0.04531361535191536), ('Rheumatic Diseases', 0.04531361535191536), ('Immune System Diseases', 0.04531361535191536)]
+
+QUERY: Patients with Lung Neoplasms receiving cancer treatment
+MATCHED: ['Lung Neoplasms', 'Neoplasms']
+RECOMMENDED: [('Pathological Conditions, Anatomical', 0.044885728508234024), ('Pathological Conditions, Signs and Symptoms', 0.044885728508234024), ('Diabetes Mellitus', 0.03790201246738434)]
+
+QUERY: Study of postoperative complications after hernia surgery
+MATCHED: ['Postoperative Complications', 'Hernia']
+RECOMMENDED: [('Pathological Conditions, Anatomical', 0.045548148453235626), ('Pathological Conditions, Signs and Symptoms', 0.045548148453235626), ('Pathologic Processes', 0.0427355021238327)
