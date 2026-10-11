@@ -14,8 +14,8 @@
 
 ## Remaining before/at hand-in
 - [x] Run the updated data workflow: training, recommendation CLI inference and Streamlit startup health check all completed successfully
-- [ ] Inspect the saved top-three recommendations for topical relevance
-- [ ] Consider an additional seed or the 55,634-record run if time permits; do not imply this is already complete
+- [x] Inspect the sample recommendation output and note its relevance limitation
+- [ ] Run at least one additional seed if time permits
 - [ ] Ensure both team members can explain the model equation, data adapter, metrics and limitations
 - [ ] Add faculty and assigned TAs to the private repository
 - [ ] Submit the PDF and presentation through the course submission channel
@@ -33,6 +33,6 @@
 
 See results/REFERENCE_RUN_55634.md. The completed 55,634-record run used 44,507/5,563/5,564 train/validation/test records and a 134-term MeSH vocabulary. Test Top-3 precision was 0.03033 for collaborative filtering, 0.01165 for popularity, and 0.00532 for random selection. This is one seeded result with an adapted MeSH-label schema, not a directly comparable reproduction of the upstream paper's dataset.
 
-## Honest reporting note
+## Dataset limitation
 
 The current adapter uses pre-assigned MeSH condition/intervention labels rather than reproducing the original XML-to-MeSH-trie matching across all six text attributes. Keep that limitation visible in the write-up and presentation.
