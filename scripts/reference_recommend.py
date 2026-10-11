@@ -6,10 +6,14 @@ import json
 import pickle
 from pathlib import Path
 import re
+import sys
 
 import numpy as np
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+# Import the model module before unpickling; Python pickles classes by module path.
+from ml.mini_batch_relu_latent_factor_model import MiniBatchReLuLatentFactorModel  # noqa: F401
 
 
 def main():
