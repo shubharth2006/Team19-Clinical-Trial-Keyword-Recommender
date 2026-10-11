@@ -31,3 +31,12 @@ jobs:
         run: python -m compileall -q src ml scripts app
       - name: Run reference-model smoke test
         run: python scripts/smoke_test_reference.py
+      - name: Run end-to-end training on the bundled sample
+        run: |
+          python scripts/run_reference_model.py \
+            --input data/sample_trials.csv \
+            --min-doc-freq 1 \
+            --max-terms 134 \
+            --epochs 1 \
+            --batch-size 1000 \
+            --seed 42
