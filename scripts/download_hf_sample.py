@@ -11,10 +11,10 @@ import json
 from pathlib import Path
 
 
-FIELDS = [
-    "nct_id", "brief_title", "official_title", "brief_summary",
-    "detailed_description", "eligibility_criteria", "conditions",
-    "keywords", "mesh_terms", "source_url",
+CORE_FIELDS = ["nct_id", "mesh_terms", "source_url"]
+TEXT_FIELDS = [
+    "brief_title", "official_title", "brief_summary",
+    "detailed_description", "eligibility_criteria", "conditions", "keywords",
 ]
 
 
@@ -35,7 +35,10 @@ def main():
     ap.add_argument("--seed", type=int, default=42)
     ap.add_argument("--shuffle-buffer", type=int, default=10000,
                     help="Streaming shuffle buffer; set to 0 to preserve source order")
+    ap.add_argument("--include-text", action="store_true",
+                    help="Include titles, summaries, eligibility and other text fields in the CSV")
     args = ap.parse_args()
+    fields = CORE_FIELDS + (TEXT_FIELDS if args.include_text else [])
     if args.rows < 0:
         ap.error("--rows must be zero (all rows) or a positive integer")
 
@@ -68,7 +71,7 @@ def main():
         return sorted(set(found))
 
     with out.open("w", newline="", encoding="utf-8") as handle:
-        writer = csv.DictWriter(handle, fieldnames=FIELDS, extrasaction="ignore")
+        writer = csv.DictWriter(handle, fieldnames=fields, extrasaction="ignore")
         writer.writeheader()
         for row in dataset:
             seen += 1
@@ -76,7 +79,7 @@ def main():
             terms = annotated_terms(mesh)
             if not terms:
                 continue
-            record = {key: serialise(row.get(key)) for key in FIELDS}
+            record = {key: serialise(row.get(key)) for key in fields}
             if row.get("nct_id"):
                 record["source_url"] = "https://clinicaltrials.gov/study/" + str(row["nct_id"])
             writer.writerow(record)
