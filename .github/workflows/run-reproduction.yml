@@ -3,14 +3,6 @@ run-name: MeSH keyword reproduction (${{ github.event.inputs.dataset_rows || '55
 name: Run clinical-trial reproduction
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - "ml/**"
-      - "scripts/run_reference_model.py"
-      - "scripts/reference_recommend.py"
-      - "app/reference_app.py"
-      - "src/data_utils.py"
   workflow_dispatch:
     inputs:
       dataset_rows:
