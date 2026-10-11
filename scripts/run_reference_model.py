@@ -78,7 +78,7 @@ def build_utility_matrix(documents: list[list[str]], min_doc_freq: int = 5, max_
 def topk_precision_for_masked_terms(train_R, eval_R, fraction, k, seed):
     """Popularity baseline on the same masked-term recovery task."""
     rng = np.random.default_rng(seed)
-    popularity = np.asarray((train_R > 0).sum(axis=1)).ravel()
+    popularity = np.asarray((train_R > 0).sum(axis=1)).ravel().astype(np.float64)
     per_doc = []
     for j in range(eval_R.shape[1]):
         r = eval_R[:, j].toarray().ravel()
