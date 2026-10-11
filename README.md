@@ -77,9 +77,9 @@ The data source provides MeSH condition/intervention annotations. The original p
 
 Use --rows 0 only if you intend to stream every eligible record. Downloading all rows may require significant time and disk space, and is not necessary for the recommended student-scale reproduction.
 
-## Other prototype scripts
+## Dataset adapter
 
-The earlier compact implementation remains under src/, scripts/run_experiment.py, and app/app.py. The reference-aligned path above is the recommended one for the assignment because it explicitly uses the upstream model and test classes.
+The module src/data_utils.py parses the exported MeSH annotation field and keeps memory usage manageable by reading only the trial ID and MeSH columns. The original text fields can be included in the download with --include-text if qualitative examples are needed.
 
 ## References
 
