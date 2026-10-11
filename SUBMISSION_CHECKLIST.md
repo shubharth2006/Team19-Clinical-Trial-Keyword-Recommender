@@ -31,7 +31,7 @@
 
 ## Measured experiment
 
-See results/REFERENCE_RUN_55634.md. The completed 55,634-record run used 44,507/5,563/5,564 train/validation/test records and a 134-term MeSH vocabulary. Test Top-3 precision was 0.03033 for collaborative filtering, 0.01165 for popularity, and 0.00532 for random selection. This is one seeded result with an adapted MeSH-label schema, not directly comparable with results from the paper's original data pipeline.
+See results/REFERENCE_RUN_55634.md. The completed 55,634-record run used 44,507/5,563/5,564 train/validation/test records and a 134-term MeSH vocabulary. Test Top-3 precision was 0.02792 for collaborative filtering, 0.01165 for popularity, and 0.00472 for random selection. This is one seeded result with an adapted MeSH-label schema, not directly comparable with results from the paper's original data pipeline.
 
 ## Dataset limitation
 
