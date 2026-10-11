@@ -48,7 +48,11 @@ def parse_terms(value) -> list[str]:
 
 
 def load_csv(path: str | Path) -> pd.DataFrame:
-    df = pd.read_csv(path)
+    # Only read columns used by the matrix builder. Clinical-trial text can be
+    # large, especially when running on hundreds of thousands of records.
+    columns = pd.read_csv(path, nrows=0).columns
+    usecols = [name for name in ("nct_id", "mesh_terms") if name in columns]
+    df = pd.read_csv(path, usecols=usecols)
     if "mesh_terms" not in df.columns:
         raise ValueError(
             "Dataset must contain a 'mesh_terms' column. "
