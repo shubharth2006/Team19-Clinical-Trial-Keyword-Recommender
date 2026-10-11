@@ -2,41 +2,38 @@
 
 ## Source and schema
 
-Source: [louisbrulenaudet/clinical-trials on Hugging Face](https://huggingface.co/datasets/louisbrulenaudet/clinical-trials), derived from ClinicalTrials.gov. The published metadata reports 541,897 studies, with nested MeSH annotations under mesh_terms.conditions and mesh_terms.interventions. The Parquet dataset is large; the project downloads a shuffled stream of records with usable MeSH labels rather than fetching all shards into local storage.
+Source: [louisbrulenaudet/clinical-trials on Hugging Face](https://huggingface.co/datasets/louisbrulenaudet/clinical-trials), derived from ClinicalTrials.gov. The dataset provides nested MeSH annotations under conditions and interventions. This repository streams a shuffled sample of records with usable MeSH labels and saves the nct_id, mesh_terms, and source_url fields by default.
 
-**Licensing note:** the current Hugging Face dataset metadata declares Apache-2.0, while the dataset-card text says MIT. Keep source attribution and check the current upstream terms before redistributing any downloaded dataset. This project does not commit the downloaded corpus.
+Licensing note: the current Hugging Face dataset metadata and dataset-card text have shown inconsistent license labels. Retain attribution and check the upstream terms before redistributing source data. Downloaded records are not committed to this repository.
 
-## Recommended workflow
+## Recommended scale
 
-The reference model caps the vocabulary and uses a dense document matrix during training. Therefore, start with a 5,000-record run, then try 20,000 or 55,634 records if the first run fits the available time and compute budget. The reference implementation's reported scale was 55,634 trial documents and 134 terms, so that is a useful target for an apples-to-apples scale check, but not an apples-to-apples data comparison because our adapter uses pre-assigned MeSH condition/intervention terms.
+A completed reference-aligned experiment used 55,634 documents, a 134-term vocabulary, an 80:10:10 split, five epochs, and seed 42. The current model builds the term-document matrix and has a dense training path, so using every source record (over 500,000) is not necessary for this mini-project and can use significant RAM/time.
 
-## Option A: run it through GitHub Actions
+## Option A: run through GitHub Actions
 
-1. Open the private repository.
-2. Select the **Actions** tab.
-3. Choose **Run clinical-trial reproduction**.
-4. Click **Run workflow** and choose 5,000 records first.
-5. Wait for the job to finish, then download its artifact named clinical-trial-reproduction-5000.
+1. Open the private repository and select the Actions tab.
+2. Choose **Run clinical-trial reproduction** and click **Run workflow**.
+3. Choose 5,000 records for a quicker check, or 55,634 to repeat the reference-scale run.
+4. Download the artifact named clinical-trial-reproduction-5000 or clinical-trial-reproduction-55634.
 
-The artifact contains reference_metrics.csv, reference_experiment.json, the saved model and vocabulary. If GitHub Actions is disabled for the repository, enable Actions under Settings > Actions > General first.
+The artifact contains the measured metrics, run summary, saved model, and vocabulary. The successful 55,634-record run is [here](https://github.com/shubharth2006/Team19-Clinical-Trial-Keyword-Recommender/actions/runs/38132544175). See [results/REFERENCE_RUN_55634.md](../results/REFERENCE_RUN_55634.md) for its metrics and limitations.
 
 ## Option B: run on Windows PowerShell
 
-From the cloned repository:
+From a cloned repository:
 
     python -m venv .venv
     .venv\Scripts\activate
     pip install -r requirements.txt
     python scripts/smoke_test_reference.py
-    python scripts/download_hf_sample.py --rows 5000 --out data/clinical_trials_5000.csv --seed 42
-    python scripts/run_reference_model.py --input data/clinical_trials_5000.csv --min-doc-freq 5 --max-terms 134 --epochs 5 --batch-size 10000 --seed 42
-
-Launch the trained recommendation demo after training:
-
+    python scripts/download_hf_sample.py --rows 55634 --out data/clinical_trials_55634.csv --seed 42
+    python scripts/run_reference_model.py --input data/clinical_trials_55634.csv --min-doc-freq 5 --max-terms 134 --epochs 5 --batch-size 10000 --seed 42
+    python scripts/reference_recommend.py --query "Neoplasms" --top-k 3
     streamlit run app/reference_app.py
 
-To download every eligible record, use --rows 0. This is not recommended as the first run: streaming the entire split may take significant time and storage, and full-corpus model training is substantially more expensive than the 55,634-record target.
+The main runner writes results/reference_metrics.csv and results/reference_experiment.json, and saves the trained model/vocabulary under output/.
 
 ## Reproducibility and reporting
 
-The experiment uses a fixed seed and writes results/reference_metrics.csv and results/reference_experiment.json. Only use metrics from a completed run. The included 15-record CSV is for parser/model smoke tests, not final performance claims.
+Use only results generated by an actual completed run. The checked-in 15-record CSV is an offline test fixture. It is not suitable for claims about generalization. The current adapter uses pre-assigned condition/intervention MeSH annotations; it does not reproduce the original XML-to-MeSH-trie matching across six text attributes. See docs/REFERENCE_REPRODUCTION.md for details.
