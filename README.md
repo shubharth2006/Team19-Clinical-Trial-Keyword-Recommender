@@ -9,7 +9,7 @@ This project reproduces the assigned keyword-recommendation task using the metho
 
 ## Primary implementation
 
-The main experiment in scripts/run_reference_model.py uses the reference model/evaluation classes in ml/:
+The main experiment in scripts/run_reference_model.py uses the reference model/evaluation classes in ml/. Default hyperparameters follow the reference repository's final-training script; they can be changed through command-line arguments.
 
 - MeSH term-document log-TF-IDF utility matrix
 - cosine-similarity-derived term-neighbor matrix
@@ -39,7 +39,11 @@ Install dependencies:
 
     pip install -r requirements.txt
 
-Run the included 15-record pilot to verify the pipeline:
+First run the synthetic offline smoke test (no network download needed):
+
+    python scripts/smoke_test_reference.py
+
+Then run the included 15-record pilot to verify data parsing and end-to-end evaluation:
 
     python scripts/run_reference_model.py --input data/sample_trials.csv --min-doc-freq 1 --max-terms 134 --epochs 5
 
