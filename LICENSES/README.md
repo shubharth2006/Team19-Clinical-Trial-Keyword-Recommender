@@ -1,1 +1,1 @@
-This directory contains the MIT license notice for the adapted reference model. See THIRD_PARTY_NOTICES.md for upstream repository and research-paper attribution.
+This directory holds license notices for third-party material bundled directly with the project. The current model and evaluation modules are implemented in this repository; the research method is cited in README.md and THIRD_PARTY_NOTICES.md.
