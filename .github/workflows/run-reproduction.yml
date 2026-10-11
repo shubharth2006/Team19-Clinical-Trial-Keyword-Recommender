@@ -1,4 +1,4 @@
-run-name: MeSH keyword reproduction (${{ github.event.inputs.dataset_rows || '5000' }} records)
+run-name: MeSH keyword reproduction (${{ github.event.inputs.dataset_rows || '55634' }} records)
 
 name: Run clinical-trial reproduction
 
@@ -28,7 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 45
     env:
-      DATASET_ROWS: ${{ github.event.inputs.dataset_rows || '5000' }}
+      DATASET_ROWS: ${{ github.event.inputs.dataset_rows || '55634' }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -80,7 +80,7 @@ jobs:
       - name: Upload measured experiment artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: clinical-trial-reproduction-${{ github.event.inputs.dataset_rows || '5000' }}
+          name: clinical-trial-reproduction-${{ github.event.inputs.dataset_rows || '55634' }}
           if-no-files-found: error
           path: |
             results/reference_metrics.csv
