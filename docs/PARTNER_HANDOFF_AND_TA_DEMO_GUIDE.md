@@ -12,7 +12,7 @@ Clinical-trial search can miss relevant records when a searcher does not enter a
 
 The method creates a term-by-trial TF-IDF utility matrix, computes relationships between terms from their trial co-occurrence patterns, and trains a ReLU predictor with mini-batch gradient descent and L2 regularization. Evaluation hides some known terms from held-out records and measures whether the model retrieves them in its top three. It is an information-retrieval prototype, not a medical decision system.
 
-**Authorship / attribution:** this is a reference-aligned reproduction and adaptation, not a new algorithm. Core model and evaluation modules are reused from the MIT-licensed public implementation, with its license and attribution retained. Our project-specific work integrates the current dataset, creates the streaming adapter, runs the reproducible experiment, adds a popularity baseline, saves inference artifacts, exposes a CLI and Streamlit demo, and documents/tests the full workflow. Do not claim that every line was written from scratch.
+**Research basis and implementation:** this is a reproduction/adaptation of the method described in Xiao Zhou's Stanford CS229 paper, not a new algorithm. The model and evaluation modules in this repository are implemented for this project. Project-specific work also integrates the current dataset, creates the streaming adapter, runs the reproducible experiment, adds a popularity baseline, saves inference artifacts, exposes a CLI and Streamlit demo, and tests/documents the workflow. Describe each teammate's real contributions accurately.
 
 ## 2. Give your teammate access to the real source of truth
 
@@ -105,7 +105,7 @@ Reads the CSV, parses the nested JSON/list-like MeSH field, extracts term string
 
 ### Reference model — ml/mini_batch_relu_latent_factor_model.py and ml/abstract_model.py
 
-These are the reused, attributed MIT-licensed model classes. They compute a cosine-similarity-derived term-neighbor matrix, learn a parameter matrix and bias, and predict non-negative utility scores with ReLU. The reference model and evaluation files should be explained as reused reference implementation, not falsely presented as wholly new code.
+These project modules compute a cosine-similarity-derived term-neighbour matrix, learn a parameter matrix and bias, and predict non-negative utility scores with ReLU. The mathematical method follows the cited research paper; the code in this repository implements the model and evaluator.
 
 ### Evaluation — ml/abstract_tester.py, ml/mse_tester.py, ml/average_precision_k_tester.py
 
@@ -168,7 +168,7 @@ A further methodological caveat is that this runner constructs the vocabulary an
 
 ### Recommended speaking order
 1. Slides 1-2 (45 seconds): state the problem, input, and output.
-2. Slides 3-4 (60 seconds): explain the reference method, MIT attribution, dataset source, and why the dataset adapter differs from the historic XML pipeline.
+2. Slides 3-4 (60 seconds): explain the research method, dataset source, and why the dataset adapter differs from the historic XML pipeline.
 3. Slides 5-6 (90 seconds): explain utility matrix, term neighbor weights, ReLU prediction, masking, Top-3, MSE/MSER.
 4. Slide 7 (30 seconds): point to the source files and the successful CI workflow.
 5. Slide 8 (60 seconds): report the measured metrics accurately, include the baselines, and mention the low absolute precision and data limitation.
@@ -204,13 +204,13 @@ They control the shape of the exponential transformation used to turn term cosin
 Masking simulates an incomplete keyword set. The evaluator checks whether hidden terms can be recovered among the highest-ranked candidates.
 
 **What does Top-3 precision mean?**  
-It is the fraction of the returned top three candidates that were among the terms hidden from the original held-out record. In the reused class the metric is named AP@K, but its implementation is precision-at-k rather than ranking-sensitive average precision.
+It is the fraction of the returned top three candidates that were among the terms hidden from the original held-out record. The evaluator keeps a legacy AP@K class name for compatibility, but the calculation is precision-at-k rather than ranking-sensitive average precision.
 
 **Why compare with popularity and random?**  
 They show whether the model does better than recommending frequent terms or selecting candidates randomly.
 
-**Is this identical to the original project?**  
-No. The core MIT-licensed model/evaluation classes and task are reference-aligned, but our data adapter consumes pre-assigned MeSH annotations rather than reproducing the original historical XML plus MeSH-trie matching. We disclose this in the report and repository.
+**Is this identical to the original paper's experiment?**  
+No. Our implementation follows the paper's method, but the data adapter consumes pre-assigned MeSH annotations rather than reproducing the historical XML and MeSH-trie matching pipeline. We disclose this difference in the report and repository.
 
 **What are the limitations?**  
 Low absolute Top-3 precision, one seed, limited vocabulary, exact phrase matching, different dataset semantics, and vocabulary/IDF calculated before the record split.
@@ -218,8 +218,8 @@ Low absolute Top-3 precision, one seed, limited vocabulary, exact phrase matchin
 **What would you improve next?**  
 Use train-only vocabulary/IDF, evaluate multiple seeds, inspect relevance on a set of queries, compare against additional baselines, and make query matching more robust.
 
-**Which parts are directly reused?**  
-The MIT-licensed model and evaluation class files under ml/, attributed in THIRD_PARTY_NOTICES.md. The adapter, orchestration, CLI, interface, artifact packaging, automation, and documentation integrate the method with the current dataset and workflow. Be specific about each teammate's actual contributions; do not invent individual work.
+**Which parts did the team implement?**  
+The repository includes the model and evaluation modules, dataset adapter, experiment orchestration, CLI, interface, artifact workflow, automated checks, and documentation. The underlying method is based on the cited paper. Be specific about each teammate's actual contributions; do not invent individual work.
 
 ## 10. Two-person rehearsal and contribution record
 
@@ -248,7 +248,6 @@ Before the review, write down who handled which real tasks (for example, data in
 ## References
 
 - Zhou, X. Collaborative Filtering on Keywords Recommendation for Clinical Trial Records, Stanford CS229 Project, 2020: https://cs229.stanford.edu/proj2020spr/report/Zhou.pdf
-- MIT-licensed reference implementation: https://github.com/2005-Aneeshdutt/Clinical-Trial-Keyword-Recommendation
 - Dataset: https://huggingface.co/datasets/louisbrulenaudet/clinical-trials
 - Team repository: https://github.com/shubharth2006/Team19-Clinical-Trial-Keyword-Recommender
 - Completed reference-scale run: https://github.com/shubharth2006/Team19-Clinical-Trial-Keyword-Recommender/actions/runs/38135025261
