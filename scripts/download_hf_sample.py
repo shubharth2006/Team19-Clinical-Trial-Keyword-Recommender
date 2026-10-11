@@ -32,6 +32,9 @@ def main():
                     help="Number of qualifying records to save; use 0 for all")
     ap.add_argument("--out", default="data/clinical_trials_5000.csv")
     ap.add_argument("--split", default="train")
+    ap.add_argument("--seed", type=int, default=42)
+    ap.add_argument("--shuffle-buffer", type=int, default=10000,
+                    help="Streaming shuffle buffer; set to 0 to preserve source order")
     args = ap.parse_args()
     if args.rows < 0:
         ap.error("--rows must be zero (all rows) or a positive integer")
@@ -50,6 +53,19 @@ def main():
         split=args.split,
         streaming=True,
     )
+    if args.shuffle_buffer > 0:
+        dataset = dataset.shuffle(seed=args.seed, buffer_size=args.shuffle_buffer)
+
+    def annotated_terms(mesh):
+        found = []
+        if isinstance(mesh, dict):
+            for group in ("conditions", "interventions"):
+                for item in (mesh.get(group) or []):
+                    if isinstance(item, dict) and item.get("term"):
+                        term = str(item["term"]).strip()
+                        if term:
+                            found.append(term)
+        return sorted(set(found))
 
     with out.open("w", newline="", encoding="utf-8") as handle:
         writer = csv.DictWriter(handle, fieldnames=FIELDS, extrasaction="ignore")
@@ -57,9 +73,12 @@ def main():
         for row in dataset:
             seen += 1
             mesh = row.get("mesh_terms")
-            if not mesh:
+            terms = annotated_terms(mesh)
+            if not terms:
                 continue
             record = {key: serialise(row.get(key)) for key in FIELDS}
+            if row.get("nct_id"):
+                record["source_url"] = "https://clinicaltrials.gov/study/" + str(row["nct_id"])
             writer.writerow(record)
             count += 1
             if count % 500 == 0:
