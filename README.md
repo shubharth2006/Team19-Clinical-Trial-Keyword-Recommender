@@ -61,7 +61,7 @@ Download a shuffled 5,000-record pilot first:
 For a larger run near the reference project's reported corpus size:
 
     python scripts/download_hf_sample.py --rows 55634 --out data/clinical_trials_55634.csv --seed 42
-    python scripts/run_reference_model.py --input data/clinical_trials_55634.csv --min-doc-freq 10 --max-terms 134 --epochs 5 --batch-size 10000 --seed 42
+    python scripts/run_reference_model.py --input data/clinical_trials_55634.csv --min-doc-freq 5 --max-terms 134 --epochs 5 --batch-size 10000 --seed 42
 
 Then launch the demo using the trained artifacts:
 
@@ -71,7 +71,11 @@ Training outputs are saved locally in output/; evaluation metrics are saved in r
 
 ## Automated validation
 
-The Reference pipeline smoke test workflow compiles the project, exercises the model on a controlled in-memory fixture, and runs the complete training/evaluation CLI on the bundled 15-record sample. The separate Run clinical-trial reproduction workflow downloads 5,000, 20,000, or 55,634 MeSH-labelled records, runs the reference-aligned experiment, and uploads the measured metrics/model as a workflow artifact. The larger workflow is deliberately separate because it downloads external data and takes longer.
+The reference-model CI workflow compiles the project, runs a controlled model smoke test, and exercises the complete training/evaluation CLI on the bundled 15-record sample. The data reproduction workflow downloads either 5,000, 20,000, or 55,634 MeSH-labelled records, fits the model, evaluates hidden-term recovery, checks recommendation inference, verifies Streamlit startup, and uploads the run artifacts.
+
+A reference-scale run with **55,634 studies** completed successfully. Its split was 44,507 train / 5,563 validation / 5,564 test with 134 terms. Test Top-3 precision was **0.03033**, compared with **0.01165** for popularity and **0.00532** for random selection; test MSE/MSER was **0.00473**. Training, CLI inference and Streamlit startup passed. See [the measured report](results/REFERENCE_RUN_55634.md), [CSV metrics](results/reference_metrics_55634.csv), and [GitHub Actions run](https://github.com/shubharth2006/Team19-Clinical-Trial-Keyword-Recommender/actions/runs/38132544175).
+
+These are results from one seed and the current dataset adapter, not an exact reproduction of the original XML-to-MeSH-text matching pipeline. The adapter's MeSH annotation workaround and absolute Top-3 precision limitations are documented in the report.
 
 ## Dataset and reproduction caveat
 
