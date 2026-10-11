@@ -1,4 +1,4 @@
-"""Shared interfaces and similarity utilities for the project recommender."""
+"""Project model interface and term-similarity utilities based on the cited method."""
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
