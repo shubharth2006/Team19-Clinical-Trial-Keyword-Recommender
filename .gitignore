@@ -11,6 +11,9 @@ data/raw/
 data/processed/
 *.parquet
 *.arrow
+output/
+*.pickle
+*.pkl
 
 # Notebook checkpoints
 .ipynb_checkpoints/
