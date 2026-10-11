@@ -80,6 +80,9 @@ def main():
             if not terms:
                 continue
             record = {key: serialise(row.get(key)) for key in fields}
+            # Keep the same annotation groups used to decide whether a record
+            # qualifies; do not leak other MeSH categories into the vocabulary.
+            record["mesh_terms"] = serialise(terms)
             if row.get("nct_id"):
                 record["source_url"] = "https://clinicaltrials.gov/study/" + str(row["nct_id"])
             writer.writerow(record)
