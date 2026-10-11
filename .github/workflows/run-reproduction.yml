@@ -7,13 +7,12 @@ on:
     branches: [main]
     paths:
       - ".github/workflows/run-reproduction.yml"
-      - "dataset-run-trigger.txt"
   workflow_dispatch:
     inputs:
       dataset_rows:
         description: "Number of MeSH-labelled trial records to download"
         required: true
-        default: "5000"
+        default: "55634"
         type: choice
         options:
           - "5000"
