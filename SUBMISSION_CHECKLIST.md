@@ -8,7 +8,8 @@
 - [x] Reference-aligned ReLU collaborative-filtering model and masked MSE/AP@K evaluators
 - [x] Dataset adapter, experiment runner, inference CLI and Streamlit demo
 - [x] Offline smoke-test and end-to-end CLI test in GitHub Actions
-- [x] 5,000-record real-data experiment completed; measured metrics recorded
+- [x] 55,634-record real-data experiment completed; measured metrics recorded
+- [x] Recommendation CLI inference and Streamlit startup passed after training
 - [x] Two-page PDF and nine-slide presentation updated with measured results and adaptation disclosure
 
 ## Remaining before/at hand-in
@@ -30,7 +31,7 @@
 
 ## Measured experiment
 
-See results/REFERENCE_RUN_5000.md. The completed 5,000-record run used 4,000/500/500 train/validation/test records and a 134-term MeSH vocabulary. Test AP@3 was 0.02539 for collaborative filtering, 0.00993 for popularity, and 0.00110 for random selection. This is one seeded result with an adapted MeSH-label schema, not a directly comparable reproduction of the upstream paper's dataset.
+See results/REFERENCE_RUN_55634.md. The completed 55,634-record run used 44,507/5,563/5,564 train/validation/test records and a 134-term MeSH vocabulary. Test Top-3 precision was 0.03033 for collaborative filtering, 0.01165 for popularity, and 0.00532 for random selection. This is one seeded result with an adapted MeSH-label schema, not a directly comparable reproduction of the upstream paper's dataset.
 
 ## Honest reporting note
 
