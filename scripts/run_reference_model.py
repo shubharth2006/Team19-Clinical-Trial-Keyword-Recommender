@@ -86,7 +86,7 @@ def topk_precision_for_masked_terms(train_R, eval_R, fraction, k, seed):
         if positives.size == 0:
             continue
         masked = r.copy()
-        count = max(1, int(len(positives) * fraction))
+        count = int(len(positives) * fraction)
         hidden = rng.choice(positives, size=min(count, len(positives)), replace=False)
         masked[hidden] = 0
         candidates = np.flatnonzero(masked == 0)
@@ -103,7 +103,7 @@ def main():
     parser = argparse.ArgumentParser(description="Train the reference-aligned ReLU collaborative-filtering model.")
     parser.add_argument("--input", default=str(ROOT / "data" / "sample_trials.csv"))
     parser.add_argument("--max-documents", type=int, default=0, help="Optional cap; 0 uses all input rows")
-    parser.add_argument("--min-doc-freq", type=int, default=5)
+    parser.add_argument("--min-doc-freq", type=int, default=1)
     parser.add_argument("--max-terms", type=int, default=134)
     parser.add_argument("--tau", type=float, default=-1.0)
     parser.add_argument("--k-neighbor", type=float, default=4.0)
