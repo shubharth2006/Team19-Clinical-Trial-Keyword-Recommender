@@ -56,9 +56,9 @@ A 55,634-record experiment completed in GitHub Actions, including download, trai
 
 - Split: 44,507 train / 5,563 validation / 5,564 test
 - Vocabulary: 134 terms; seed: 42; epochs: 5; masked terms: 80%
-- Test Top-3 precision: collaborative filtering 0.03033, popularity 0.01165, random 0.00532
+- Test Top-3 precision: collaborative filtering 0.02792, popularity 0.01165, random 0.00472
 - Test MSE/MSER: 0.00473
-- Validation Top-3 precision: 0.02936; random 0.00466
+- Validation Top-3 precision: 0.02866; random 0.00664
 
 Full run notes: `results/REFERENCE_RUN_55634.md`  
 Metrics CSV: `results/reference_metrics_55634.csv`  
