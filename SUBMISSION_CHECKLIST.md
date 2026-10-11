@@ -12,7 +12,7 @@
 - [x] Two-page PDF and nine-slide presentation updated with measured results and adaptation disclosure
 
 ## Remaining before/at hand-in
-- [ ] Run the updated data workflow again to confirm the recommendation CLI and Streamlit health-check steps complete
+- [x] Run the updated data workflow: training, recommendation CLI inference and Streamlit startup health check all completed successfully
 - [ ] Inspect the saved top-three recommendations for topical relevance
 - [ ] Consider an additional seed or the 55,634-record run if time permits; do not imply this is already complete
 - [ ] Ensure both team members can explain the model equation, data adapter, metrics and limitations
