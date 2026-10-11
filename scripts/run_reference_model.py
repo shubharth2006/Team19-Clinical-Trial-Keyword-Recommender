@@ -75,7 +75,7 @@ def build_utility_matrix(documents: list[list[str]], min_doc_freq: int = 5, max_
     return matrix, candidates, doc_freq, idf
 
 
-def topk_precision_for_masked_terms(train_R, eval_R, scores_matrix, fraction, k, seed):
+def topk_precision_for_masked_terms(train_R, eval_R, fraction, k, seed):
     """Popularity baseline on the same masked-term recovery task."""
     rng = np.random.default_rng(seed)
     popularity = np.asarray((train_R > 0).sum(axis=1)).ravel()
@@ -92,7 +92,7 @@ def topk_precision_for_masked_terms(train_R, eval_R, scores_matrix, fraction, k,
         candidates = np.flatnonzero(masked == 0)
         if not len(candidates):
             continue
-        ranking_scores = scores_matrix[:, j].copy()
+        ranking_scores = popularity.copy()
         ranking_scores[masked > 0] = -np.inf
         ranked = candidates[np.argsort(ranking_scores[candidates])[::-1]][:k]
         per_doc.append(float(np.sum(r[ranked] > 0) / max(len(ranked), 1)))
@@ -167,13 +167,8 @@ def main():
     )(test_R)
 
     # Additional popularity baseline using exactly the same held-out records.
-    np.random.seed(args.seed + 203)
-    test_prediction = np.zeros(test_R.shape, dtype=np.float32)
-    for j in range(test_R.shape[1]):
-        raw = model.predict(test_R[:, j].toarray())
-        test_prediction[:, j] = raw.ravel()
     test_popularity = topk_precision_for_masked_terms(
-        train_R, test_R, test_prediction, args.mask_fraction, 3, args.seed + 204
+        train_R, test_R, args.mask_fraction, 3, args.seed + 204
     )
 
     out_dir = ROOT / "output"
