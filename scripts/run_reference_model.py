@@ -1,8 +1,8 @@
-"""Run a reproducible, reference-aligned clinical-trial MeSH recommendation experiment.
+"""Run the project's clinical-trial MeSH recommendation experiment.
 
-This adapts the upstream XML pipeline to a flattened public dataset that already
-contains MeSH annotations. The recommendation model and evaluation classes in
-ml/ are attributed in THIRD_PARTY_NOTICES.md and LICENSES/.
+The model and evaluation routines in ml/ implement the method described in the
+cited research paper. This runner adapts that method to a public dataset whose
+records already contain MeSH annotations.
 """
 from __future__ import annotations
 
