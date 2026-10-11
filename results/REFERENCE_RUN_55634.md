@@ -34,7 +34,7 @@ The first recommendation is topically related; the other two are weaker matches.
 
 ## Scope and limitations
 
-This experiment reproduces the assigned task and reuses the MIT-licensed reference model/evaluation classes with attribution. Our adapter uses pre-assigned MeSH annotations for conditions/interventions from the current Hugging Face dataset, rather than rebuilding the original historical XML and MeSH-trie matching across six free-text fields. Therefore, the data pipeline is not identical and these scores must not be presented as directly comparable with the original repository's scores.
+This experiment implements the assigned collaborative-filtering method described in the cited research paper. Our adapter uses pre-assigned MeSH annotations for conditions/interventions from the current Hugging Face dataset, rather than rebuilding the original historical XML and MeSH-trie matching across six free-text fields. Therefore, the data pipeline is not identical and these scores must not be presented as directly comparable with the original repository's scores.
 
 The run used one random seed and five epochs. It supports that the training/evaluation/demo path runs and that the model beat simple ranking baselines on this run; it does not establish robust performance across data samples or query types.
 
