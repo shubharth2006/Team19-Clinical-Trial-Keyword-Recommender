@@ -3,95 +3,88 @@
 **UE24CS352A - Machine Learning Mini-Project | Problem 14 | Team 19**  
 Shubharth Upadhyay (PES2UG24CS499) and Suraj Acharya (PES2UG24CS539)
 
-This project reproduces the assigned keyword-recommendation task using the methodology in Zhou's CS229 report and the public implementation linked under THIRD_PARTY_NOTICES.md. It is not presented as a new algorithm.
+This is a reference-aligned reproduction/adaptation of the assigned task from Zhou's Stanford CS229 project report. It is not presented as a new algorithm.
 
-> Academic information-retrieval prototype only; not a clinical decision-support system.
+> Educational information-retrieval prototype only; not a clinical decision-support system.
 
 ## Primary implementation
 
-The main experiment in scripts/run_reference_model.py uses the reference model/evaluation classes in ml/. Default hyperparameters follow the reference repository's final-training script; they can be changed through command-line arguments.
+The main experiment is scripts/run_reference_model.py. It uses the attributed reference model/evaluation modules under ml/.
 
-- MeSH term-document log-TF-IDF utility matrix
-- cosine-similarity-derived term-neighbor matrix
-- ReLU prediction layer with L2 regularization
-- mini-batch gradient descent
-- masked-keyword evaluation using MSE, MSER and AP@3
-- random and additional popularity baselines
-- saved model/vocabulary artifacts for the Streamlit interface
+- MeSH term-by-trial log-TF-IDF utility matrix
+- Cosine-similarity-derived term-neighbor weights
+- ReLU prediction with a trainable parameter matrix and bias
+- Mini-batch gradient descent and L2 regularization
+- Masked-term evaluation using Top-3 precision (named AP@K by the reused class), MSE and MSER
+- Random baseline from the reference evaluator, plus an added popularity baseline
+- Saved model/vocabulary artifacts for CLI inference and the Streamlit demo
 
-Core reference model/evaluation files are reused under the MIT license. Upstream credit and the license are preserved in THIRD_PARTY_NOTICES.md and LICENSES/Xiao-Zhou-MIT.txt.
+Core model/evaluation classes are reused under the MIT license. The original license and attribution are kept in LICENSES/Xiao-Zhou-MIT.txt and THIRD_PARTY_NOTICES.md. The project-specific integration includes the streaming data adapter, experiment runner, popularity baseline, saved outputs, CLI, Streamlit UI and automation. See docs/REFERENCE_REPRODUCTION.md.
 
-## Quick start (offline smoke test)
+## Quick start: use the saved 55,634-record model
 
-Create an environment using:
+1. Create and activate a virtual environment.
+2. Install dependencies using pip install -r requirements.txt.
+3. Download the run artifact from [the successful reference-scale GitHub Actions run](https://github.com/shubharth2006/Team19-Clinical-Trial-Keyword-Recommender/actions/runs/38132544175).
+4. Extract Team19_Clinical_Trial_CF_55634_Run_Artifacts.zip into the repository root, preserving paths such that output/ and results/ are created.
+5. Run CLI inference and launch the app:
 
-    python -m venv .venv
+       python scripts/reference_recommend.py --query "Neoplasms" --top-k 3
+       streamlit run app/reference_app.py
 
-Windows activation:
+Open the local Streamlit URL, typically http://localhost:8501.
 
-    .venv\Scripts\activate
+## Reproduce the complete experiment
 
-macOS/Linux activation:
+Recommended Windows PowerShell sequence:
 
-    source .venv/bin/activate
-
-Install dependencies:
-
+    py -3.11 -m venv .venv
+    .venv\Scripts\Activate.ps1
+    python -m pip install --upgrade pip
     pip install -r requirements.txt
-
-First run the synthetic offline smoke test (no network download needed):
-
     python scripts/smoke_test_reference.py
-
-Then run the included 15-record pilot to verify data parsing and end-to-end evaluation:
-
-    python scripts/run_reference_model.py --input data/sample_trials.csv --min-doc-freq 1 --max-terms 134 --epochs 5
-
-This small pilot is only a smoke test; it cannot support meaningful generalization or model-superiority claims.
-
-## Recommended scaled experiment
-
-The closest public reproduction reports 55,634 clinical-trial documents and 134 MeSH terms. To keep the scale comparable without downloading the historical XML archive, this repository provides an adapter for a current ClinicalTrials.gov-derived dataset containing pre-assigned MeSH condition/intervention annotations.
-
-Download a shuffled 5,000-record pilot first:
-
-    python scripts/download_hf_sample.py --rows 5000 --out data/clinical_trials_5000.csv --seed 42
-    python scripts/run_reference_model.py --input data/clinical_trials_5000.csv --min-doc-freq 5 --max-terms 134 --epochs 5 --batch-size 10000
-
-For a larger run near the reference project's reported corpus size:
-
     python scripts/download_hf_sample.py --rows 55634 --out data/clinical_trials_55634.csv --seed 42
     python scripts/run_reference_model.py --input data/clinical_trials_55634.csv --min-doc-freq 5 --max-terms 134 --epochs 5 --batch-size 10000 --seed 42
-
-Then launch the demo using the trained artifacts:
-
+    python scripts/reference_recommend.py --query "Neoplasms" --top-k 3
     streamlit run app/reference_app.py
 
-Training outputs are saved locally in output/; evaluation metrics are saved in results/reference_metrics.csv and results/reference_experiment.json. Large downloaded data and trained model artifacts are intentionally not committed to GitHub.
+If PowerShell blocks activation, run Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass in the current terminal, then activate again. The dataset download requires internet access.
 
-## Automated validation
+## Measured reference-scale run
 
-The reference-model CI workflow compiles the project, runs a controlled model smoke test, and exercises the complete training/evaluation CLI on the bundled 15-record sample. The data reproduction workflow downloads either 5,000, 20,000, or 55,634 MeSH-labelled records, fits the model, evaluates hidden-term recovery, checks recommendation inference, verifies Streamlit startup, and uploads the run artifacts.
+A 55,634-record run completed successfully in GitHub Actions, including download, training, evaluation, CLI inference, Streamlit startup, and artifact upload.
 
-A reference-scale run with **55,634 studies** completed successfully. Its split was 44,507 train / 5,563 validation / 5,564 test with 134 terms. Test Top-3 precision was **0.03033**, compared with **0.01165** for popularity and **0.00532** for random selection; test MSE/MSER was **0.00473**. Training, CLI inference and Streamlit startup passed. See [the measured report](results/REFERENCE_RUN_55634.md), [CSV metrics](results/reference_metrics_55634.csv), and [GitHub Actions run](https://github.com/shubharth2006/Team19-Clinical-Trial-Keyword-Recommender/actions/runs/38132544175).
+- Split: 44,507 train / 5,563 validation / 5,564 test
+- Vocabulary: 134 terms; seed: 42; epochs: 5; masked terms: 80%
+- Test Top-3 precision: collaborative filtering 0.03033, popularity 0.01165, random 0.00532
+- Test MSE/MSER: 0.00473
+- Validation Top-3 precision: 0.02936; random 0.00466
 
-These are results from one seed and the current dataset adapter, not an exact reproduction of the original XML-to-MeSH-text matching pipeline. The adapter's MeSH annotation workaround and absolute Top-3 precision limitations are documented in the report.
+Full measured run notes: results/REFERENCE_RUN_55634.md  
+Metrics CSV: results/reference_metrics_55634.csv  
+Experiment JSON: results/reference_experiment_55634.json  
+Successful workflow: https://github.com/shubharth2006/Team19-Clinical-Trial-Keyword-Recommender/actions/runs/38132544175
 
-## Dataset and reproduction caveat
+These results are from one seed and the current adapted dataset; they are not directly comparable with the original project's reported scores. Absolute Top-3 precision remains low.
 
-Dataset source: https://huggingface.co/datasets/louisbrulenaudet/clinical-trials
+## Dataset adaptation and known limitations
 
-The data source provides MeSH condition/intervention annotations. The original paper's pipeline uses a historical XML archive plus a MeSH trie to match MeSH terms in six clinical-trial text fields. The adapter here uses the pre-assigned annotations as a practical workaround. The algorithm and evaluation are reference-aligned, but the data representation is not identical, so results are **not directly comparable** with the upstream project's reported scores.
+Source dataset: https://huggingface.co/datasets/louisbrulenaudet/clinical-trials
 
-Use --rows 0 only if you intend to stream every eligible record. Downloading all rows may require significant time and disk space, and is not necessary for the recommended student-scale reproduction.
+The current adapter uses pre-assigned MeSH annotations rather than recreating the original historical XML plus MeSH-trie matching across six free-text fields. The utility matrix vocabulary/IDF is computed before the train/validation/test split; a stricter future evaluation should fit vocabulary/IDF on training records only. Query matching relies on exact controlled-vocabulary phrases, so the interface is not a general semantic search model.
 
-## Dataset adapter
+The app demonstrates the pipeline, but qualitative relevance should be inspected across several queries before claiming strong recommendation quality.
 
-The module src/data_utils.py parses the exported MeSH annotation field and keeps memory usage manageable by reading only the trial ID and MeSH columns. The original text fields can be included in the download with --include-text if qualitative examples are needed.
+## Team handoff and TA preparation
+
+- Start with docs/PARTNER_HANDOFF_AND_TA_DEMO_GUIDE.md for Windows run instructions, file map, equations, demonstration plan, and viva questions.
+- Read docs/VIVA_PREP.md and docs/REFERENCE_REPRODUCTION.md.
+- Keep the private repository as the source of truth; add faculty and assigned TAs under GitHub repository access.
+- Be explicit about reuse and each teammate's real contribution.
 
 ## References
 
 1. Zhou, X. *Collaborative Filtering on Keywords Recommendation for Clinical Trial Records*, Stanford CS229 Project, 2020: https://cs229.stanford.edu/proj2020spr/report/Zhou.pdf
-2. Reference implementation: https://github.com/2005-Aneeshdutt/Clinical-Trial-Keyword-Recommendation
+2. MIT-licensed reference implementation: https://github.com/2005-Aneeshdutt/Clinical-Trial-Keyword-Recommendation
 3. Dataset: https://huggingface.co/datasets/louisbrulenaudet/clinical-trials
 4. ClinicalTrials.gov: https://clinicaltrials.gov/
