@@ -61,6 +61,22 @@ jobs:
             --epochs 5 \
             --batch-size 10000 \
             --seed 42
+      - name: Smoke-test recommendation CLI
+        run: python scripts/reference_recommend.py --query "Neoplasms" --top-k 3
+      - name: Smoke-test Streamlit demo
+        run: |
+          python -m streamlit run app/reference_app.py --server.headless true --server.port 8501 --server.address 127.0.0.1 > streamlit.log 2>&1 &
+          APP_PID=$!
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent http://127.0.0.1:8501/_stcore/health; then
+              kill "$APP_PID" || true
+              exit 0
+            fi
+            sleep 2
+          done
+          cat streamlit.log
+          kill "$APP_PID" || true
+          exit 1
       - name: Upload measured experiment artifacts
         uses: actions/upload-artifact@v4
         with:
