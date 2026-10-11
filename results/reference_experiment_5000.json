@@ -1,0 +1,40 @@
+{
+  "input_file": "clinical_trials_5000.csv",
+  "documents_used": 5000,
+  "vocabulary_size": 134,
+  "matrix_shape_terms_by_documents": [134, 5000],
+  "split": {"train": 4000, "validation": 500, "test": 500},
+  "parameters": {
+    "tau": -0.001,
+    "k": 1000.0,
+    "alpha": 0.1,
+    "lambda": 0.01,
+    "epochs": 5,
+    "batch_size": 10000,
+    "seed": 42,
+    "mask_fraction": 0.8
+  },
+  "validation": {
+    "mse": 0.004887249952963708,
+    "mser": 0.004887249952963708,
+    "apk3": 0.009868421052631578,
+    "random_apk3": 0.0021929824561403508
+  },
+  "test": {
+    "mse": 0.0046338019331649775,
+    "mser": 0.0046338019331649775,
+    "apk3": 0.025386313465783662,
+    "random_apk3": 0.0011037527593818985,
+    "popularity_apk3": 0.009933774834437087
+  },
+  "training_loss": [
+    0.19661659265944936,
+    0.196238083651983,
+    0.1959226062527455,
+    0.19565824386391134,
+    0.19543535084866875,
+    0.1952461195325682
+  ],
+  "interpretation_note": "This dataset adapter consumes pre-assigned MeSH condition/intervention terms. Results are not directly comparable with the original XML text-matching corpus.",
+  "source": "GitHub Actions run https://github.com/shubharth2006/Team19-Clinical-Trial-Keyword-Recommender/actions/runs/38131877004"
+}
