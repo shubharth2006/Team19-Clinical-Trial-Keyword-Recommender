@@ -14,13 +14,13 @@
 
 | Metric | Collaborative filtering | Popularity baseline | Random baseline |
 |---|---:|---:|---:|
-| Top-3 precision (reference AP@K tester) | 0.03033 | 0.01165 | 0.00532 |
+| Top-3 precision (reference AP@K tester) | 0.02792 | 0.01165 | 0.00472 |
 | MSE | 0.00473 | - | - |
 | MSER | 0.00473 | - | - |
 
-Validation Top-3 precision was 0.02936, compared with random 0.00466. Validation MSE/MSER was 0.00481. Training loss decreased from 0.19330 before updates to 0.19072 after five epochs.
+Validation Top-3 precision was 0.02866, compared with random 0.00664. Validation MSE/MSER was 0.00481. Training loss decreased from 0.19330 before updates to 0.19072 after five epochs.
 
-For this one seed, the top-3 precision is about 2.60 times the popularity baseline and 5.70 times the random baseline. These are descriptive ratios for this run only. The absolute value of the metric is still low.
+For this one seed, the top-3 precision is about 2.40 times the popularity baseline and 5.92 times the random baseline. These are descriptive ratios for this run only. The absolute value of the metric is still low.
 
 ## Recommendation smoke test
 
