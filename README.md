@@ -25,7 +25,7 @@ Core model/evaluation classes are reused under the MIT license. The original lic
 
 1. Create and activate a virtual environment.
 2. Install dependencies using pip install -r requirements.txt.
-3. Download the run artifact from [the successful reference-scale GitHub Actions run](https://github.com/shubharth2006/Team19-Clinical-Trial-Keyword-Recommender/actions/runs/38132544175).
+3. Download the run artifact from [the successful reference-scale GitHub Actions run](https://github.com/shubharth2006/Team19-Clinical-Trial-Keyword-Recommender/actions/runs/38135025261).
 4. Extract Team19_Clinical_Trial_CF_55634_Run_Artifacts.zip into the repository root, preserving paths such that output/ and results/ are created.
 5. Run CLI inference and launch the app:
 
@@ -63,7 +63,7 @@ A 55,634-record run completed successfully in GitHub Actions, including download
 Full measured run notes: results/REFERENCE_RUN_55634.md  
 Metrics CSV: results/reference_metrics_55634.csv  
 Experiment JSON: results/reference_experiment_55634.json  
-Successful workflow: https://github.com/shubharth2006/Team19-Clinical-Trial-Keyword-Recommender/actions/runs/38132544175
+Successful workflow: https://github.com/shubharth2006/Team19-Clinical-Trial-Keyword-Recommender/actions/runs/38135025261
 
 These results are from one seed and the current adapted dataset; they are not directly comparable with the original project's reported scores. Absolute Top-3 precision remains low.
 
