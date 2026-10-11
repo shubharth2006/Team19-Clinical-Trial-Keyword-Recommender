@@ -2,8 +2,8 @@
 
 ## Execution
 
-- Run: [GitHub Actions - 55,634-record reproduction](https://github.com/shubharth2006/Team19-Clinical-Trial-Keyword-Recommender/actions/runs/38132544175)
-- Dataset: 55,634 shuffled-stream records with usable pre-assigned MeSH condition/intervention terms
+- Run: [GitHub Actions - 55,634-record reproduction](https://github.com/shubharth2006/Team19-Clinical-Trial-Keyword-Recommender/actions/runs/38135025261)
+- Dataset: 55,634 shuffled-stream records; each saved record contains only pre-assigned condition/intervention MeSH terms
 - Vocabulary: 134 terms
 - Split: 44,507 train / 5,563 validation / 5,564 test
 - Parameters: tau=-0.001, k=1000, alpha=0.1, lambda=0.01, 5 epochs, seed=42
@@ -37,3 +37,6 @@ The first recommendation is topically related; the other two are weaker matches.
 This experiment reproduces the assigned task and reuses the MIT-licensed reference model/evaluation classes with attribution. Our adapter uses pre-assigned MeSH annotations for conditions/interventions from the current Hugging Face dataset, rather than rebuilding the original historical XML and MeSH-trie matching across six free-text fields. Therefore, the data pipeline is not identical and these scores must not be presented as directly comparable with the original repository's scores.
 
 The run used one random seed and five epochs. It supports that the training/evaluation/demo path runs and that the model beat simple ranking baselines on this run; it does not establish robust performance across data samples or query types.
+
+
+The downloader now exports only the condition and intervention labels used to qualify each record, keeping the data filter and model input consistent.
