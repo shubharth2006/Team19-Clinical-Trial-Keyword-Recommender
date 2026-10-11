@@ -147,13 +147,13 @@ The measured split was 44,507 training, 5,563 validation, and 5,564 test records
 
 | Test metric | Result |
 |---|---:|
-| Collaborative-filtering Top-3 precision / reference AP@3 | 0.03033 |
+| Collaborative-filtering Top-3 precision / reference AP@3 | 0.02792 |
 | Popularity baseline Top-3 precision | 0.01165 |
-| Random baseline Top-3 precision | 0.00532 |
+| Random baseline Top-3 precision | 0.00472 |
 | MSE | 0.00473 |
 | MSER | 0.00473 |
 
-Validation Top-3 precision was 0.02936; validation random was 0.00466. Training loss decreased from 0.19330 before updates to 0.19072 after five epochs.
+Validation Top-3 precision was 0.02866; validation random was 0.00664. Training loss decreased from 0.19330 before updates to 0.19072 after five epochs.
 
 Interpretation: the model beat both simple baselines in this one seeded run. The absolute Top-3 precision is still low. The data adapter uses pre-assigned MeSH annotations instead of rebuilding the original historical XML and MeSH-trie matching across six free-text attributes. Therefore, these metrics are not directly comparable with the original project's scores. One seed does not establish robust generalization.
 
