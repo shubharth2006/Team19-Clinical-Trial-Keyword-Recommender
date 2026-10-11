@@ -69,6 +69,10 @@ Then launch the demo using the trained artifacts:
 
 Training outputs are saved locally in output/; evaluation metrics are saved in results/reference_metrics.csv and results/reference_experiment.json. Large downloaded data and trained model artifacts are intentionally not committed to GitHub.
 
+## Automated validation
+
+The Reference pipeline smoke test workflow compiles the project, exercises the model on a controlled in-memory fixture, and runs the complete training/evaluation CLI on the bundled 15-record sample. The separate Run clinical-trial reproduction workflow downloads 5,000, 20,000, or 55,634 MeSH-labelled records, runs the reference-aligned experiment, and uploads the measured metrics/model as a workflow artifact. The larger workflow is deliberately separate because it downloads external data and takes longer.
+
 ## Dataset and reproduction caveat
 
 Dataset source: https://huggingface.co/datasets/louisbrulenaudet/clinical-trials
