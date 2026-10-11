@@ -25,7 +25,7 @@ Project-specific integration includes the dataset adapter, deterministic experim
 
 1. Create and activate a virtual environment.
 2. Install dependencies using `pip install -r requirements.txt`.
-3. Download the run artifact from [the completed GitHub Actions run](https://github.com/shubharth2006/Team19-Clinical-Trial-Keyword-Recommender/actions/runs/38135025261).
+3. Download the run artifact from [the completed GitHub Actions run](https://github.com/shubharth2006/Team19-Clinical-Trial-Keyword-Recommender/actions/runs/38137159221).
 4. Extract `Team19_Clinical_Trial_CF_55634_Run_Artifacts.zip` into the repository root, preserving paths so that `output/` and `results/` are created.
 5. Run CLI inference and launch the app:
 
@@ -63,7 +63,7 @@ A 55,634-record experiment completed in GitHub Actions, including download, trai
 Full run notes: `results/REFERENCE_RUN_55634.md`  
 Metrics CSV: `results/reference_metrics_55634.csv`  
 Experiment JSON: `results/reference_experiment_55634.json`  
-Completed workflow: https://github.com/shubharth2006/Team19-Clinical-Trial-Keyword-Recommender/actions/runs/38135025261
+Completed workflow: https://github.com/shubharth2006/Team19-Clinical-Trial-Keyword-Recommender/actions/runs/38137159221
 
 These results are from one seed and the adapted dataset; they are not directly comparable with results from the original paper's data pipeline. Absolute Top-3 precision remains low.
 
