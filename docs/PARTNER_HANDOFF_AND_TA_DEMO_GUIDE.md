@@ -228,7 +228,7 @@ Each teammate should be able to:
 - explain the model equation in plain language;
 - find where the dataset is downloaded, parsed, split, trained, evaluated, and saved;
 - reproduce the headline metrics from the recorded run;
-- state the code reuse and dataset mismatch without hesitation;
+- explain the implementation and dataset adaptation without hesitation;
 - describe their own concrete contributions truthfully.
 
 Before the review, write down who handled which real tasks (for example, data inspection, running the experiment, reviewing output, app integration, documentation, slides, or code walkthrough). Both teammates should still understand the whole pipeline because the evaluation may ask either person about any component.
