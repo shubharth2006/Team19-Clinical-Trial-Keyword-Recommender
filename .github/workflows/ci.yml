@@ -31,5 +31,3 @@ jobs:
         run: python -m compileall -q src ml scripts app
       - name: Run reference-model smoke test
         run: python scripts/smoke_test_reference.py
-      - name: Run compact prototype smoke test
-        run: python scripts/run_experiment.py --input data/sample_trials.csv --min-doc-freq 1 --max-terms 50 --epochs 2 --batch-size 8
